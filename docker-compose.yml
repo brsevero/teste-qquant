@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  banco:
+    image: postgres
+    container_name: banco
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: database-projeto
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: teste2345
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres-compose-network
+      
+  administrador-banco:
+    image: dpage/pgadmin4
+    container_name: administrador-banco
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "teste@mail.com"
+      PGADMIN_DEFAULT_PASSWORD: "dmin@12345"
+    ports:
+      - "16543:80"
+    depends_on:
+      - banco
+    networks:
+      - postgres-compose-network
+    
+  django:
+        container_name: django
+        restart: unless-stopped
+        environment:
+          DJANGO_SETTINGS_MODULE: 'projeto.settings'
+        build: 
+          context: .
+          dockerfile: Dockerfile
+    
+        command:  bash -c "pip install -r requirements.txt  && python manage.py makemigrations
+          && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+        volumes:
+          - .:/code
+        ports:
+          - "80:8000"
+        depends_on:
+          - banco
+        networks:
+          - postgres-compose-network
+
+networks:
+  postgres-compose-network:
+    driver: bridge
