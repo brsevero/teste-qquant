@@ -3,5 +3,5 @@ from .models import *
 
 class ArticleSerializer(serializers.Serializer):
     class Meta:
-        model = Article
+        model = Article 
         fields = 'all'
