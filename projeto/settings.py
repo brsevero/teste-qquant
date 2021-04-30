@@ -77,6 +77,7 @@ WSGI_APPLICATION = 'projeto.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+#configuracaoa do banco
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -87,7 +88,7 @@ DATABASES = {
         'PORT': config('DB_PORT'),
     },
     'OPTIONS': {
-                        'options': '-c search_path=django, public, financas, documentos, suprimentos, orcamento, colaboradores'
+                        'options': '-c search_path=django, public'
                     },
 }
 

@@ -7,7 +7,7 @@ from .models import *
 from .serializers import *
 
 
-
+#importanto todos os metodos http
 class ArticleCrud(viewsets.ModelViewSet):
     serializer_class = ArticleSerializer
     queryset = Article.objects.all()
