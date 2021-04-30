@@ -27,6 +27,8 @@ class ArticleCrud(viewsets.ModelViewSet):
         with open('/code/temp/temp.ris', 'r') as bibliography_file:
             entries = rispy.load(bibliography_file)
             for entry in entries:
+                if Article.objects.filter(id = entry['id']):
+                    del entry['id']
                 #cria os objetos mapeados pela rispy
                 Article.objects.create(**entry)
 
